@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Védett oldal</title>
+<style>
+body { font-family: Arial; background:#111; color:#fff; }
+.box { margin:100px auto; width:350px; background:#222; padding:20px; border-radius:10px; }
+input { width:100%; padding:10px; margin-top:10px; }
+button { width:100%; padding:10px; margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="box">
+<h2>🔒 Belépés</h2>
+<input id="pw" type="password" placeholder="Jelszó...">
+<button onclick="login()">Belépés</button>
+<p id="msg"></p>
+</div>
+
+<script>
+async function login() {
+    let pw = document.getElementById("pw").value;
+
+    let res = await fetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: pw })
+    });
+
+    let data = await res.json();
+
+    if (data.success) {
+        window.location.href = "/protected";
+    } else {
+        document.getElementById("msg").innerText = "ROSSZ jelszó!";
+    }
+}
+</script>
+</body>
+</html>
